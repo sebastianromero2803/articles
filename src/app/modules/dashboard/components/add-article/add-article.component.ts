@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input, SimpleChanges } from '@angular/core';
 import { ArticleInterface } from '../../../../models/article.model';
 
 @Component({
@@ -8,37 +8,61 @@ import { ArticleInterface } from '../../../../models/article.model';
 })
 export class AddArticleComponent implements OnInit {
 
-  articleId: string;
   articleAbstract: string[] | string;
   articleJournal: string;
   articleTitleDisplay: string;
-  edition_mode: boolean;
   article: ArticleInterface;
 
+  indexArticle: number;
+
+  @Input() editDictionary: {ind: number, article: ArticleInterface};
   @Output() createArticleEmitter = new EventEmitter<ArticleInterface>();
+  @Output() editArticleEmitter = new EventEmitter<{ind: number, article: ArticleInterface}>();
   
   constructor() {
-    this.articleId = '';
     this.articleAbstract = [];
     this.articleJournal = '';
     this.articleTitleDisplay = '';
-    this.edition_mode = false;
     this.article = {} as ArticleInterface;
+
+    this.indexArticle = 0;
+    this.editDictionary = { ind: 0, article: {} as ArticleInterface };
    }
 
   ngOnInit(): void { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['editDictionary'].currentValue) {
+      this.articleAbstract = this.editDictionary.article.abstract;
+      this.articleJournal = this.editDictionary.article.journal;
+      this.articleTitleDisplay = this.editDictionary.article.title_display;
+    }
+  }
+
+  editArticle() {
+    this.indexArticle = this.editDictionary.ind;
+    this.article = {
+      abstract: this.editDictionary.article.abstract,
+      journal: this.editDictionary.article.journal,
+      title_display: this.editDictionary.article.title_display,
+    }
+
+    this.editArticleEmitter.emit({ind: this.indexArticle, article: this.article});
+  }
+
   createArticle() {
 
     this.article = {
-      id: this.articleId,
       abstract: this.articleAbstract,
       journal: this.articleJournal,
       title_display: this.articleTitleDisplay,
-      edition_mode: this.edition_mode
     }
     
     this.createArticleEmitter.emit(this.article);
+
+    this.articleAbstract = [];
+    this.articleJournal = '';
+    this.articleTitleDisplay = '';
   }
 
 }

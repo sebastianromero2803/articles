@@ -1,18 +1,20 @@
 
 <div class="title">
-    <h2>Articles</h2>
+    <h2>Existing articles</h2>
 </div>
 <div class="articles">
     <div class="content" *ngFor="let article of articles; let i = index">
         <div class="articles__header">
-            <div class="articles__title">
-                <span>Title: </span>{{article.title_display}}
-            </div>
-            <div class="articles__header__journal">
-            <span>Journal: </span>{{article.journal}}
+            <div class="articles__header--info">
+                <div class="articles__title">
+                    <span><b>Title: {{article.title_display}}</b></span>
+                </div>
+                <div class="articles__header__journal">
+                <span><b>Journal: {{article.journal}}</b></span>
+                </div>
             </div>
             <div class="articles__delete">
-                <mat-icon (click)="removeArticle(i)">delete</mat-icon>
+                <mat-icon (click)="removeArticle(i)">close</mat-icon>
             </div>
         </div>
         
@@ -27,12 +29,12 @@
             <span class="articles__abstract-text">Abstract: </span>{{article.abstract}}
         </div>
         
-        <div class="actions">
-            <div class="actions__edit">
-                <button mat-raised-button color="primary" (click)="removeArticle(i)">Edit</button>
+        <div class="articles__actions">
+            <div class="articles__actions--show">
+                <button mat-raised-button color="accent" (click)="editArticle(i)">Show Abstract</button>
             </div>
-            <div class="actions__show">
-                <button mat-raised-button color="primary" (click)="removeArticle(i)">Show Abstract</button>
+            <div class="articles__actions--edit">
+                <button mat-raised-button color="primary" (click)="editArticle(i)">Edit</button>
             </div>
         </div>
     </div>

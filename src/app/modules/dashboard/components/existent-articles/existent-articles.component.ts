@@ -10,14 +10,7 @@ export class ExistentArticlesComponent implements OnInit {
 
   @Input() articles: ArticleInterface[];
   @Output() removeArticleEmitter = new EventEmitter<number>();
-
-  edit: ArticleInterface = {
-    id: '',
-    journal: '',
-    abstract: '',
-    title_display: '',
-    edition_mode: false
-  };
+  @Output() editArticleEmitter = new EventEmitter<number>();
 
   constructor() {
     this.articles = [];
@@ -31,9 +24,8 @@ export class ExistentArticlesComponent implements OnInit {
     this.removeArticleEmitter.emit(index)
   }
 
-  editArticle(articleId: string): void {
-    const articleIndex = this.articles.findIndex((art) => art.id === articleId);
-    this.edit = this.articles[articleIndex];
+  editArticle(index: number): void {
+    this.editArticleEmitter.emit(index)
   }
 
 }

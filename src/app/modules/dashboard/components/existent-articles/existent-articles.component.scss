@@ -14,9 +14,21 @@
   column-gap: 2rem;
   row-gap: 2rem;
   max-width: 1000rem;
-  margin: 0 25rem;
+  margin: 0 15rem;
   &__delete {
     cursor: pointer;
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    &--edit {
+      margin-right: 0.5rem;
+    }
   }
   img{
       max-width: 40rem;
@@ -37,9 +49,7 @@
   row-gap: 2rem;
   max-width: 60rem;
   margin: 0 auto;
-}
-.actions {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  padding: 1rem 1rem;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 3px #999;
 }

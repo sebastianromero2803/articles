@@ -1,15 +1,12 @@
 <div class="form">
+  <h2>Add a new article here <br> or edit an existing one</h2>
   <mat-form-field appearance="legacy">
     <mat-label>Title</mat-label>
     <input matInput [(ngModel)]="articleTitleDisplay">
   </mat-form-field>
   <mat-form-field appearance="legacy">
     <mat-label>Abstract</mat-label>
-    <input matInput [(ngModel)]="articleAbstract">
-  </mat-form-field>
-  <mat-form-field appearance="legacy">
-    <mat-label>Id</mat-label>
-    <input matInput [(ngModel)]="articleId">
+    <textarea matInput cols="30" rows="15" [(ngModel)]="articleAbstract"></textarea>
   </mat-form-field>
   <mat-form-field appearance="legacy">
     <mat-label>Journal</mat-label>

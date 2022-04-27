@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import {ArticlesService} from "@app-services/articles.service";
 import {ArticleInterface} from "@app-models/article.model";
 
@@ -10,6 +10,7 @@ import {ArticleInterface} from "@app-models/article.model";
 export class DashboardComponent implements OnInit   {
 
   articles: ArticleInterface[];
+  editDictionary = { ind: 0, article: {} as ArticleInterface };
 
   constructor(private articleService: ArticlesService) {
     this.articles = [];
@@ -18,8 +19,6 @@ export class DashboardComponent implements OnInit   {
   ngOnInit() {
     this.articleService.getData().subscribe((response: any) => {
       this.articles = response.response.docs.map((art: any) => {
-        art.editMode = false;
-        art.editCount = 0;
         art.abstract = art.abstract.join('\n');
         return art;
       });
@@ -32,6 +31,10 @@ export class DashboardComponent implements OnInit   {
 
   createArticle(article: ArticleInterface) {
     this.articles.push(article);
+  }
+
+  editArticle(index: number) {
+    this.editDictionary = { ind: index, article: this.articles[index]};
   }
 
 }

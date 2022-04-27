@@ -1,6 +1,5 @@
 export const environment = {
   production: false,
-  URL: "http://www.omdbapi.com",
+  URL: 'https://api.plos.org/search?q=title:DNA',
   API: "",
-  OMDB_APIKEY: '886fac43'
 };
