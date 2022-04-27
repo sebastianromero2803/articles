@@ -1,0 +1,19 @@
+<div class="form">
+  <mat-form-field appearance="legacy">
+    <mat-label>Title</mat-label>
+    <input matInput [(ngModel)]="articleTitleDisplay">
+  </mat-form-field>
+  <mat-form-field appearance="legacy">
+    <mat-label>Abstract</mat-label>
+    <input matInput [(ngModel)]="articleAbstract">
+  </mat-form-field>
+  <mat-form-field appearance="legacy">
+    <mat-label>Id</mat-label>
+    <input matInput [(ngModel)]="articleId">
+  </mat-form-field>
+  <mat-form-field appearance="legacy">
+    <mat-label>Journal</mat-label>
+    <input matInput [(ngModel)]="articleJournal">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="createArticle()">Create Article</button>
+</div>

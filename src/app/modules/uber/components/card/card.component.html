@@ -1,0 +1,8 @@
+<div class="content">
+    <div *ngFor="let card of cards"
+        [ngStyle]="{'background-color': card.color}"
+        class="card">
+        <img src="../../../assets/img/card{{ card.imageNumber }}.png" alt="card{{ card.imageNumber }}">
+        <p [innerHTML]="card.text"></p>
+    </div>
+</div>

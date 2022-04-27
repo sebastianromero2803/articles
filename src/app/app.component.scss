@@ -1,0 +1,19 @@
+html {
+    box-sizing: border-box;
+    font-size: 62.5%; /* 1rem = 10px */
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+body {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.6rem;
+    line-height: 2;
+}
+
+#principal {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    font-family: Roboto, sans-serif;
+}

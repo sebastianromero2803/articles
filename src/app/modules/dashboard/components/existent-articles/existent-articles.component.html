@@ -1,0 +1,39 @@
+
+<div class="title">
+    <h2>Articles</h2>
+</div>
+<div class="articles">
+    <div class="content" *ngFor="let article of articles; let i = index">
+        <div class="articles__header">
+            <div class="articles__title">
+                <span>Title: </span>{{article.title_display}}
+            </div>
+            <div class="articles__header__journal">
+            <span>Journal: </span>{{article.journal}}
+            </div>
+            <div class="articles__delete">
+                <mat-icon (click)="removeArticle(i)">delete</mat-icon>
+            </div>
+        </div>
+        
+        <div *ngIf="article.journal.toLowerCase().includes('plos'); else elseBlock" class="articles__image">
+            <img class="articles__image" src="./assets/img/descarga.png">
+        </div>
+        <ng-template #elseBlock>
+            <img class="articles__image" src="./assets/img/not_found.png">
+        </ng-template>
+    
+        <div class="articles__abstract">
+            <span class="articles__abstract-text">Abstract: </span>{{article.abstract}}
+        </div>
+        
+        <div class="actions">
+            <div class="actions__edit">
+                <button mat-raised-button color="primary" (click)="removeArticle(i)">Edit</button>
+            </div>
+            <div class="actions__show">
+                <button mat-raised-button color="primary" (click)="removeArticle(i)">Show Abstract</button>
+            </div>
+        </div>
+    </div>
+</div>

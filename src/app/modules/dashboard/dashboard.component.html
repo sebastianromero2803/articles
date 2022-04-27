@@ -1,0 +1,8 @@
+<div class="container">
+  <div class="container__form">
+    <app-add-article (createArticleEmitter)="createArticle($event)"></app-add-article>
+  </div>
+  <div class="dashboard__articles">
+    <app-existent-articles [articles]="articles" (removeArticleEmitter)="removeArticle($event)"></app-existent-articles>
+  </div>
+</div>
