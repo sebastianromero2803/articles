@@ -1,7 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+
 import {ArticlesService} from "@app-services/articles.service";
-import {ArticleInterface} from "@app-models/article.model";
-import { ArticleIndexInterface } from '../../models/articleIndex.model';
+
+import {ArticleInterface, ArticleResponseModel} from "@app-models/article.model";
+import { ArticleIndexInterface } from "@app-models/articleIndex.model";
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -22,10 +25,15 @@ export class DashboardComponent implements OnInit   {
 
   ngOnInit() {
     this.articleService.getData().subscribe((response: any) => {
-      this.articles = response.response.docs.map((art: any) => {
-        art.abstract = art.abstract.join('\n');
-        art.counterEdits = 0;
-        return art;
+      this.articles = response.response.docs.map((element: ArticleResponseModel, index: number) => {
+        const payload = {
+          id: index,
+          title_display: element.title_display,
+          journal: element.journal,
+          abstract: element.abstract.join('\n'),
+          counterEdits: 0,
+        }
+        return Object.assign({}, payload);
       });
     });
   }
@@ -50,7 +58,10 @@ export class DashboardComponent implements OnInit   {
   addEditedArticle(dict: ArticleIndexInterface) {
     this.articles.splice(dict.ind, 1, dict.article);
     console.log(dict);
-    this.message = 'You have edited this article '+ dict.article.counterEdits + ' times';
+    if (!(dict.article.counterEdits - 1))
+      this.message = 'You have edited this article '+ dict.article.counterEdits + ' time';
+    else
+      this.message = 'You have edited this article '+ dict.article.counterEdits + ' times';
     Swal.fire(this.message, '', 'success');
   }
 

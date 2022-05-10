@@ -5,11 +5,12 @@
                       (createArticleEmitter)="createArticle($event)">
     </app-add-article>
   </div>
-  <div class="dashboard__articles">
+  <div class="container__articles">
     <app-existent-articles [articles]="articles" 
                             (showAbstractEmitter)="showAbstract($event)"
                             (removeArticleEmitter)="removeArticle($event)"
                             (editArticleEmitter)="editArticle($event)">
     </app-existent-articles>
   </div>
+  <br>
 </div>
