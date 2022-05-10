@@ -3,7 +3,7 @@
     <h2>Existing articles</h2>
 </div>
 <div class="articles">
-    <div class="content" *ngFor="let article of articles; let i = index">
+    <div class="content" *ngFor="let article of articles; let i = index" [ngClass]="{'content--editing' : article.isChoosed}">
         <div class="articles__header">
             <div class="articles__header--info">
                 <div class="articles__title">
