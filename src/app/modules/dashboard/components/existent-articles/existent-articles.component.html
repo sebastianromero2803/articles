@@ -18,24 +18,23 @@
             </div>
         </div>
         
-        <div *ngIf="article.journal.toLowerCase().includes('plos'); else elseBlock" class="articles__image">
-            <img class="articles__image" src="./assets/img/descarga.png">
-        </div>
-        <ng-template #elseBlock>
-            <img class="articles__image" src="./assets/img/not_found.png">
-        </ng-template>
-    
-        <div class="articles__abstract">
-            <span class="articles__abstract-text">Abstract: </span>{{article.abstract}}
+        <img class="articles__image" [src]="getImageSource(i)">
+
+        <div *ngIf="article.showAbstract" class="articles__abstract">
+            <span>{{article.abstract}}</span>
         </div>
         
         <div class="articles__actions">
             <div class="articles__actions--show">
-                <button mat-raised-button color="accent" (click)="editArticle(i)">Show Abstract</button>
+                <button mat-raised-button color="accent" (click)="showAbstract(i)">{{!article.showAbstract ? 'Show Abstract':'Hide Abstract'}}</button>
             </div>
-            <div class="articles__actions--edit">
+
+            <div *ngIf="!article.isChoosed; else elseBlock" class="articles__actions--edit">
                 <button mat-raised-button color="primary" (click)="editArticle(i)">Edit</button>
             </div>
+            <ng-template #elseBlock class="articles__actions--cancel">
+                <button mat-raised-button color="warn" (click)="cancelEdition(i)">Cancel</button>
+            </ng-template>
         </div>
     </div>
 </div>

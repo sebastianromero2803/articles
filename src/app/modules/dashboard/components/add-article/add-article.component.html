@@ -2,15 +2,17 @@
   <h2>Add a new article here <br> or edit an existing one</h2>
   <mat-form-field appearance="legacy">
     <mat-label>Title</mat-label>
-    <input matInput [(ngModel)]="articleTitleDisplay">
+    <input matInput [(ngModel)]="articleTitleDisplay" required>
   </mat-form-field>
   <mat-form-field appearance="legacy">
     <mat-label>Abstract</mat-label>
-    <textarea matInput cols="30" rows="15" [(ngModel)]="articleAbstract"></textarea>
+    <textarea matInput cols="30" rows="15" [(ngModel)]="articleAbstract" required></textarea>
   </mat-form-field>
   <mat-form-field appearance="legacy">
     <mat-label>Journal</mat-label>
-    <input matInput [(ngModel)]="articleJournal">
+    <input matInput [(ngModel)]="articleJournal" required>
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="createArticle()">Create Article</button>
+  <button mat-raised-button [color]="editDictionary.article.isChoosed ? 'accent':'primary'" 
+          (click)="editDictionary.article.isChoosed ? addEditedArticle():createArticle()">
+          {{editDictionary.article.isChoosed ? 'Edit Article':'Create Article'}}</button>
 </div>

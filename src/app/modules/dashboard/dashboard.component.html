@@ -1,9 +1,15 @@
 <div class="container">
   <div class="container__form">
-    <app-add-article [editDictionary]="editDictionary" (createArticleEmitter)="createArticle($event)"></app-add-article>
+    <app-add-article [editDictionary]="editDictionary"
+                      (addEditedArticleEmitter)="addEditedArticle($event)" 
+                      (createArticleEmitter)="createArticle($event)">
+    </app-add-article>
   </div>
   <div class="dashboard__articles">
-    <app-existent-articles [articles]="articles" (removeArticleEmitter)="removeArticle($event)"
-    (editArticleEmitter)="editArticle($event)"></app-existent-articles>
+    <app-existent-articles [articles]="articles" 
+                            (showAbstractEmitter)="showAbstract($event)"
+                            (removeArticleEmitter)="removeArticle($event)"
+                            (editArticleEmitter)="editArticle($event)">
+    </app-existent-articles>
   </div>
 </div>

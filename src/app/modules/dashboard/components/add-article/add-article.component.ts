@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Input, SimpleChanges } from '@angular/core';
 import { ArticleInterface } from '../../../../models/article.model';
+import { ArticleIndexInterface } from '../../../../models/articleIndex.model';
 
 @Component({
   selector: 'app-add-article',
@@ -11,58 +12,101 @@ export class AddArticleComponent implements OnInit {
   articleAbstract: string[] | string;
   articleJournal: string;
   articleTitleDisplay: string;
+  articleIsChoosed: boolean;
+  articleShowAbstract: boolean;
+  articleCounterEdits: number;
   article: ArticleInterface;
 
   indexArticle: number;
+  dict: ArticleIndexInterface;
 
-  @Input() editDictionary: {ind: number, article: ArticleInterface};
+  @Input() editDictionary: ArticleIndexInterface;
   @Output() createArticleEmitter = new EventEmitter<ArticleInterface>();
-  @Output() editArticleEmitter = new EventEmitter<{ind: number, article: ArticleInterface}>();
+  @Output() addEditedArticleEmitter = new EventEmitter<ArticleIndexInterface>();
   
   constructor() {
     this.articleAbstract = [];
     this.articleJournal = '';
     this.articleTitleDisplay = '';
+    this.articleIsChoosed = false;
+    this.articleShowAbstract = false;
+    this.articleCounterEdits = 0;
     this.article = {} as ArticleInterface;
 
     this.indexArticle = 0;
-    this.editDictionary = { ind: 0, article: {} as ArticleInterface };
+    this.editDictionary = {} as ArticleIndexInterface;
+
+    this.dict = {} as ArticleIndexInterface;
    }
 
   ngOnInit(): void { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['editDictionary'].currentValue) {
-      this.articleAbstract = this.editDictionary.article.abstract;
-      this.articleJournal = this.editDictionary.article.journal;
-      this.articleTitleDisplay = this.editDictionary.article.title_display;
+      if(!this.editDictionary.article.isChoosed) {
+        this.clearInputs();
+      }
+      else{
+        this.articleAbstract = this.editDictionary.article.abstract;
+        this.articleJournal = this.editDictionary.article.journal;
+        this.articleTitleDisplay = this.editDictionary.article.title_display;
+      }
     }
   }
 
-  editArticle() {
+  clearInputs() {
+    this.articleAbstract = [];
+    this.articleJournal = '';
+    this.articleTitleDisplay = '';
+  }
+
+  addEditedArticle() {
     this.indexArticle = this.editDictionary.ind;
-    this.article = {
-      abstract: this.editDictionary.article.abstract,
-      journal: this.editDictionary.article.journal,
-      title_display: this.editDictionary.article.title_display,
-    }
-
-    this.editArticleEmitter.emit({ind: this.indexArticle, article: this.article});
-  }
-
-  createArticle() {
-
     this.article = {
       abstract: this.articleAbstract,
       journal: this.articleJournal,
       title_display: this.articleTitleDisplay,
+      isChoosed: this.articleIsChoosed,
+      showAbstract: this.articleShowAbstract,
+      counterEdits: this.editDictionary.article.counterEdits
     }
-    
-    this.createArticleEmitter.emit(this.article);
 
-    this.articleAbstract = [];
-    this.articleJournal = '';
-    this.articleTitleDisplay = '';
+    this.dict = { ind: this.indexArticle, article: this.article };
+
+    this.addEditedArticleEmitter.emit(this.dict);
+
+    this.editDictionary = {
+      ind: 0,
+      article: {
+        abstract: [],
+        journal: '',
+        title_display: '',
+        isChoosed: false,
+        showAbstract: false,
+        counterEdits: 0
+      }
+    }
+
+    this.clearInputs();
+    
+  }
+
+  createArticle() {
+
+    if(this.articleAbstract.length > 0 && this.articleJournal.length > 0 && this.articleTitleDisplay.length > 0) {
+      this.article = {
+        abstract: this.articleAbstract,
+        journal: this.articleJournal,
+        title_display: this.articleTitleDisplay,
+        isChoosed: this.articleIsChoosed,
+        showAbstract: this.articleShowAbstract,
+        counterEdits: this.articleCounterEdits
+      }
+      
+      this.createArticleEmitter.emit(this.article);
+
+      this.clearInputs();
+    }
   }
 
 }
