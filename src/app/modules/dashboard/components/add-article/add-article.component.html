@@ -1,5 +1,5 @@
 <div class="form">
-  <h2>Add a new article here <br> or edit an existing one</h2>
+  <h2>Add a new article here</h2>
   <mat-form-field appearance="legacy">
     <mat-label>Title</mat-label>
     <input matInput [(ngModel)]="articleTitleDisplay" required>
@@ -12,7 +12,5 @@
     <mat-label>Journal</mat-label>
     <input matInput [(ngModel)]="articleJournal" required>
   </mat-form-field>
-  <button mat-raised-button [color]="editDictionary.article.isChoosed ? 'accent':'primary'" 
-          (click)="editDictionary.article.isChoosed ? addEditedArticle():createArticle()">
-          {{editDictionary.article.isChoosed ? 'Edit Article':'Create Article'}}</button>
+  <button mat-raised-button (click)="createArticle()" color="primary" > Create Article </button>
 </div>

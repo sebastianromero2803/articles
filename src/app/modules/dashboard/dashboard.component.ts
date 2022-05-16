@@ -1,11 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-
 import {ArticlesService} from "@app-services/articles.service";
-
 import {ArticleInterface, ArticleResponseModel} from "@app-models/article.model";
 import { ArticleIndexInterface } from "@app-models/articleIndex.model";
-
 import Swal from 'sweetalert2';
+
 
 @Component({
   selector: "app-dashboard",
@@ -15,7 +13,6 @@ import Swal from 'sweetalert2';
 export class DashboardComponent implements OnInit   {
 
   articles: ArticleInterface[];
-  editDictionary = { ind: 0, article: {} as ArticleInterface };
   message: string;
 
   constructor(private articleService: ArticlesService) {
@@ -41,7 +38,7 @@ export class DashboardComponent implements OnInit   {
   showAbstract(index: number) {
     this.articles[index].showAbstract = !this.articles[index].showAbstract;
   }
-  
+
   removeArticle(index: number) {
     this.articles.splice(index, 1);
     Swal.fire('Article removed', '', 'success');
@@ -52,16 +49,18 @@ export class DashboardComponent implements OnInit   {
   }
 
   editArticle(index: number) {
-    this.editDictionary = { ind: index, article: this.articles[index]};
+    this.articles[index].isChoosed = !this.articles[index].isChoosed;
+    this.articles[index].showAbstract = true;
   }
 
   addEditedArticle(dict: ArticleIndexInterface) {
+    this.articles[dict.ind].showAbstract = false;
     this.articles.splice(dict.ind, 1, dict.article);
-    console.log(dict);
+    this.articles[dict.ind].counterEdits++;
     if (!(dict.article.counterEdits - 1))
       this.message = 'You have edited this article '+ dict.article.counterEdits + ' time';
     else
-      this.message = 'You have edited this article '+ dict.article.counterEdits + ' times';
+      this.message = 'You have edited this article '+ this.articles[dict.ind].counterEdits + ' times';
     Swal.fire(this.message, '', 'success');
   }
 

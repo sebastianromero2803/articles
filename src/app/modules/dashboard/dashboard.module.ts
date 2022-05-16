@@ -9,8 +9,10 @@ import { DashboardComponent } from "./dashboard.component";
 import { AddArticleComponent } from './components/add-article/add-article.component';
 import { ExistentArticlesComponent } from './components/existent-articles/existent-articles.component';
 
+import { ReactiveFormsModule } from "@angular/forms";
+
 @NgModule({
   declarations: [DashboardComponent, AddArticleComponent, AddArticleComponent, ExistentArticlesComponent],
-  imports: [CommonModule, DashboardRoutingModule, AngularMaterialModule, FormsModule],
+  imports: [CommonModule, DashboardRoutingModule, AngularMaterialModule, FormsModule, ReactiveFormsModule],
 })
 export class DashboardModule {}

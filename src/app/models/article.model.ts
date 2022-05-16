@@ -1,7 +1,7 @@
 export interface ArticleInterface {
-  journal: string;
-  abstract: string[] | string;
-  title_display: string;
+  journal: string | any;
+  abstract: string[] | string | any;
+  title_display: string | any;
   isChoosed: boolean;
   showAbstract: boolean;
   counterEdits: number;

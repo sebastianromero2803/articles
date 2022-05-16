@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ArticleInterface } from '@app-models/article.model';
 import Swal from 'sweetalert2';
+import { ArticleIndexInterface } from '../../../../models/articleIndex.model';
 
 @Component({
   selector: 'app-existent-articles',
@@ -9,25 +11,79 @@ import Swal from 'sweetalert2';
 })
 export class ExistentArticlesComponent implements OnChanges {
 
-  @Input() articles: ArticleInterface[];
+  articlesForm: FormGroup;
+  dict: ArticleIndexInterface;
+  article: ArticleInterface;
+
+  @Input() articleList: ArticleInterface[];
   @Output() showAbstractEmitter = new EventEmitter<number>();
   @Output() cancelEditionEmitter = new EventEmitter<boolean>();
   @Output() removeArticleEmitter = new EventEmitter<number>();
   @Output() editArticleEmitter = new EventEmitter<number>();
+  @Output() addEditedArticleEmitter = new EventEmitter<ArticleIndexInterface>();
 
-  constructor() {
-    this.articles = [];
+  constructor(private formBuilder: FormBuilder) {
+    this.articleList = [];
+    this.dict = {} as ArticleIndexInterface;
+    this.article = {} as ArticleInterface;
+
+    this.articlesForm = this.formBuilder.group({
+      articles: this.formBuilder.array([]),
+    });
+    
   }
 
+  get getArticleList() {
+    return this.articlesForm.get("articles") as FormArray;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['articles'].currentValue) {
-      this.articles = changes['articles'].currentValue;
+    if (changes['articleList'].currentValue) {
+      this.articleList = changes['articleList'].currentValue;
+      this.articleList.forEach((element) => {
+        this.getArticleList.push(this.addArticle(element));
+      });
     }
   }
 
+  addArticle(articleData: ArticleInterface) {
+    return this.formBuilder.group({
+      title: [articleData.title_display],
+      journal: [articleData.journal],
+      abstract: [articleData.abstract],
+    });
+  }
+
+  addEditedArticle(index: number) {
+    this.dict.ind = index;
+    this.article = {
+      abstract: this.getArticleList.at(index).value.abstract,
+      journal: this.getArticleList.at(index).value.journal,
+      title_display: this.getArticleList.at(index).value.title,
+      isChoosed: false,
+      showAbstract: false,
+      counterEdits: this.articleList[index].counterEdits
+    }
+  
+    this.dict.article = this.article;
+    this.addEditedArticleEmitter.emit(this.dict);
+  
+    this.dict = {
+      ind: 0,
+      article: {
+        abstract: [],
+        journal: '',
+        title_display: '',
+        isChoosed: false,
+        showAbstract: false,
+        counterEdits: 0
+      }
+    }
+    
+  }
+
   getImageSource(index: number) {
-    return this.articles[index].journal.toLowerCase().includes('plos one') ? './assets/img/descarga.png' : './assets/img/not_found.png'
+    return this.articleList[index].journal.toLowerCase().includes('plos one') ? './assets/img/descarga.png' : './assets/img/not_found.png'
   }
 
   showAbstract(index: number) {
@@ -41,20 +97,16 @@ export class ExistentArticlesComponent implements OnChanges {
       confirmButtonText: 'Delete',
       denyButtonText: 'Cancel',
     }).then((result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed)
         this.removeArticleEmitter.emit(index)
-      }
     });
   }
 
   editArticle(index: number) {
-    this.articles[index].isChoosed = true;
-    this.articles[index].counterEdits++;
     this.editArticleEmitter.emit(index)
   }
 
   cancelEdition(index: number) {
-    this.articles[index].isChoosed = false;
     this.editArticleEmitter.emit(index)
   }
 

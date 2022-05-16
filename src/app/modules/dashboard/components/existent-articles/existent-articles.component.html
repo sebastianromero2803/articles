@@ -1,5 +1,5 @@
 
-<div class="title">
+<!-- <div class="title">
     <h2>Existing articles</h2>
 </div>
 <div class="articles">
@@ -37,4 +37,87 @@
             </ng-template>
         </div>
     </div>
+</div> -->
+
+<div class="title">
+    <h2>Existing articles</h2>
 </div>
+<form [formGroup]="articlesForm">
+    <div
+        class="articleList"
+        formArrayName="articles"
+    >
+        <div
+            class="content"
+            *ngFor="let article of getArticleList.controls; let i = index"
+            [ngClass]="{'content--editing' : articleList[i].isChoosed}"
+            [formGroupName]="i"
+        >
+            <div class="articleList__header">
+                <div class="articleList__header--info">
+
+                    <div *ngIf="!articleList[i].isChoosed; else elseBlock1" class="articleList__header__title">
+                        <span><b>Title: {{articleList[i].title_display}}</b></span>
+                    </div>
+                    <div>
+                        <ng-template #elseBlock1>
+                            <mat-form-field class="form__input" appearance="legacy">
+                                <mat-label>Title</mat-label>
+                                <input matInput formControlName="title"/>
+                            </mat-form-field>
+                        </ng-template>
+                    </div>
+
+                    <div *ngIf="!articleList[i].isChoosed; else elseBlock2" class="articleList__header__journal">
+                        <span><b>Journal: {{articleList[i].journal}}</b></span>
+                    </div>
+                    <div>
+                        <ng-template #elseBlock2>
+                            <mat-form-field class="form__input" appearance="legacy">
+                                <mat-label>Journal</mat-label>
+                                <input matInput formControlName="journal"/>
+                            </mat-form-field>
+                        </ng-template>
+                    </div>
+
+                </div>
+                <div class="articleList__delete">
+                    <mat-icon (click)="removeArticle(i)">close</mat-icon>
+                </div>
+            </div>
+            
+            <img class="articleList__image" [src]="getImageSource(i)">
+
+            <div *ngIf="articleList[i].showAbstract" class="articleList__abstract">
+                <div *ngIf="!articleList[i].isChoosed; else elseBlock3" class="articleList__header__journal">
+                    <span><b>Abstract: {{articleList[i].abstract}}</b></span>
+                </div>
+                <div>
+                    <ng-template #elseBlock3>
+                        <mat-form-field class="form__input abstract" appearance="legacy">
+                            <mat-label>Abstract</mat-label>
+                            <textarea cols="30" rows="15" matInput formControlName="abstract"></textarea>
+                        </mat-form-field>
+                    </ng-template>
+                </div>
+            </div>
+
+            <div class="articleList__actions">
+                <div class="articleList__actions--show">
+                    <button mat-raised-button color="accent" (click)="showAbstract(i)">{{!articleList[i].showAbstract ? 'Show Abstract':'Hide Abstract'}}</button>
+                </div>
+                <div *ngIf="articleList[i].isChoosed" class="articleList__actions--addEditedArticle">
+                    <button mat-raised-button color="primary" (click)="addEditedArticle(i)">Finish Editing</button>
+                </div>
+    
+                <div *ngIf="!articleList[i].isChoosed; else elseBlock" class="articleList__actions--edit">
+                    <button mat-raised-button color="primary" (click)="editArticle(i)">Edit</button>
+                </div>
+                <ng-template #elseBlock class="articleList__actions--cancel">
+                    <button mat-raised-button color="warn" (click)="cancelEdition(i)">Cancel</button>
+                </ng-template>
+            </div>
+
+        </div>
+    </div>
+</form>
