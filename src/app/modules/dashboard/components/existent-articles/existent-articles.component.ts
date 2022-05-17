@@ -17,7 +17,6 @@ export class ExistentArticlesComponent implements OnChanges {
 
   @Input() articleList: ArticleInterface[];
   @Output() showAbstractEmitter = new EventEmitter<number>();
-  @Output() cancelEditionEmitter = new EventEmitter<boolean>();
   @Output() removeArticleEmitter = new EventEmitter<number>();
   @Output() editArticleEmitter = new EventEmitter<number>();
   @Output() addEditedArticleEmitter = new EventEmitter<ArticleIndexInterface>();
@@ -40,6 +39,7 @@ export class ExistentArticlesComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['articleList'].currentValue) {
       this.articleList = changes['articleList'].currentValue;
+      this.getArticleList.clear();
       this.articleList.forEach((element) => {
         this.getArticleList.push(this.addArticle(element));
       });
@@ -97,8 +97,10 @@ export class ExistentArticlesComponent implements OnChanges {
       confirmButtonText: 'Delete',
       denyButtonText: 'Cancel',
     }).then((result) => {
-      if (result.isConfirmed)
-        this.removeArticleEmitter.emit(index)
+      if (result.isConfirmed) {
+        this.getArticleList.removeAt(index);
+        this.removeArticleEmitter.emit(index);
+      }
     });
   }
 

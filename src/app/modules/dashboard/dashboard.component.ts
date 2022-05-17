@@ -45,7 +45,9 @@ export class DashboardComponent implements OnInit   {
   }
 
   createArticle(article: ArticleInterface) {
-    this.articles.push(article);
+    this.articles = [...this.articles, article];
+    console.log(this.articles);
+    Swal.fire('Article added', '', 'success');
   }
 
   editArticle(index: number) {

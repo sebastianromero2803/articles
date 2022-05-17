@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, Input, SimpleChanges } from '@angular/core';
-
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ArticleInterface } from '../../../../models/article.model';
 import { ArticleIndexInterface } from '../../../../models/articleIndex.model';
 
@@ -8,7 +7,7 @@ import { ArticleIndexInterface } from '../../../../models/articleIndex.model';
   templateUrl: './add-article.component.html',
   styleUrls: ['./add-article.component.scss']
 })
-export class AddArticleComponent implements OnInit {
+export class AddArticleComponent {
 
   articleAbstract: string[] | string;
   articleJournal: string;
@@ -24,7 +23,7 @@ export class AddArticleComponent implements OnInit {
   @Output() createArticleEmitter = new EventEmitter<ArticleInterface>();
   
   constructor() {
-    this.articleAbstract = [];
+    this.articleAbstract = '';
     this.articleJournal = '';
     this.articleTitleDisplay = '';
     this.articleIsChoosed = false;
@@ -36,8 +35,6 @@ export class AddArticleComponent implements OnInit {
 
     this.dict = {} as ArticleIndexInterface;
    }
-
-  ngOnInit(): void { }
 
   createArticle() {
 
@@ -52,7 +49,7 @@ export class AddArticleComponent implements OnInit {
       }
       
       this.createArticleEmitter.emit(this.article);
-
+      
       this.clearInputs();
     }
   }
